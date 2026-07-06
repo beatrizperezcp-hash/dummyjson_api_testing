@@ -19,7 +19,17 @@ class Get_method:
     def prepare_header(self, header):
         self.context.header = header
 
-    def performance_method_and_get_status_code(self):
+    def perform_method_and_get_status_code(self):
      self.context.get_method = req.get(url=self.context.get_uri, headers=self.context.header)
      return self.context.get_method.status_code
+
+    def verify_field_in_body(self, key):
+        json = self.context.get_method.json()
+        for x in json:
+            if key in x:
+                pass
+        return json
+
+
+
 
