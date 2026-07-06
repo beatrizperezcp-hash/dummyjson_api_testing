@@ -7,6 +7,12 @@ Feature: GET /products
       | key       | value                                |
       | x-api-key | configuration.dummyson_api.x-api-key |
     And performa method and validate the status code 200
+    And verify the key with the following conditions
+      | key      |
+      | products |
+      | total    |
+      | skip     |
+      | limit    |
     And verify the key products with the following conditions
       | key      | condition | value |
       | id       | >         | 0     |

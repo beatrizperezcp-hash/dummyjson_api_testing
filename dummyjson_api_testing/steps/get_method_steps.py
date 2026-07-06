@@ -59,6 +59,17 @@ def validate_items_in_body(context, key):
             else:
                 raise ValueError(f"Something went wrong {[key_table]}")
 
+@step("verify the key with the following conditions")
+def validate_items_in_body(context):
+    """This function validates values"""
+    get_poo = Get_method(context)
+    response = get_poo.verify_main_in_body()
+
+    for x in context.table:
+        key_table = x["key"]
+        if key_table in response:
+            pass
+
 @step("validate {key} is not duplicated in {field}")
 def validate_key_is_not_duplicated(context, key, field):
     """This function validates is the indicated key is not duplicated"""

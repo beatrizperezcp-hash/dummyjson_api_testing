@@ -30,6 +30,10 @@ class Get_method:
                 pass
         return json
 
+    def verify_main_in_body(self):
+        json = self.context.get_method.json()
+        return json
+
 
 
 
