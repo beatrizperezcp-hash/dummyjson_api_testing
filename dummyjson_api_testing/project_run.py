@@ -1,4 +1,5 @@
 import subprocess as runner
 
 
-runner.run(["behave", "--tags", "@introduce-tag"])
+runner.run([ ".venv\\Scripts\\behave.exe",
+    "--no-capture"])
