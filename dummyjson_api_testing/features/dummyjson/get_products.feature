@@ -14,4 +14,4 @@ Feature: GET /products
       | price    | >         | 0     |
       | stock    | >=        | 0     |
       | category | not       | Null  |
-    Then validate id is not duplicated
+    Then validate id is not duplicated in products

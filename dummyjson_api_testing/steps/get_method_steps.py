@@ -14,6 +14,7 @@ def prepare_uri_step(context, file_name, endpoint):
 
 @step("prepare header with the following data")
 def prepare_header(context):
+    """This function prepares header from .feature file"""
     header = {}
     for i, x in enumerate(context.table, start=0):
         value = x["value"]
@@ -25,6 +26,7 @@ def prepare_header(context):
 
 @step("performa method and validate the status code {status_code}")
 def performance_method(context, status_code):
+    """This function perform method and validates stats code"""
     get_poo = Get_method(context)
     response = str(get_poo.perform_method_and_get_status_code())
     assert status_code == response, f"Something went wrong with the status code {response}"
@@ -32,6 +34,7 @@ def performance_method(context, status_code):
 
 @step("verify the key {key} with the following conditions")
 def validate_items_in_body(context, key):
+    """This function validates key, condition and value"""
     get_poo = Get_method(context)
     response = get_poo.verify_field_in_body(key)
 
@@ -56,12 +59,13 @@ def validate_items_in_body(context, key):
             else:
                 raise ValueError(f"Something went wrong {[key_table]}")
 
-@step("validate {key} is not duplicated")
-def validate_key_is_not_duplicated(context, key):
+@step("validate {key} is not duplicated in {field}")
+def validate_key_is_not_duplicated(context, key, field):
+    """This function validates is the indicated key is not duplicated"""
     get_poo = Get_method(context)
     response = get_poo.verify_field_in_body(key)
     keys = []
-    for x in response["products"]:
+    for x in response[field]:
        if x[key] not in keys:
            keys.append(x[key])
        else:
