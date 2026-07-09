@@ -2,12 +2,12 @@ Feature: GET /products
 
   @get_products
   Scenario: GET /products
-    Given prepare uri from the file dummyson_api and the endpoint /products
+    Given prepare uri from the file dummyjson_api and the endpoint /products
     Then prepare header with the following data
-      | key       | value                                |
-      | x-api-key | configuration.dummyson_api.x-api-key |
-    And performa method and validate the status code 200
-    And verify the key with the following conditions
+      | key       | value        |
+      | x-api-key | dummyjson_api |
+    And perform method and validate the status code 200
+    And verify the following keys in the body
       | key      |
       | products |
       | total    |

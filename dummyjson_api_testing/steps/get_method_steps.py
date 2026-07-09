@@ -1,8 +1,7 @@
-from contextlib import nullcontext
-
+import json
+import os
 from behave import step
 from helper.page_objects.poo_get_method import Get_method
-import requests as req
 
 
 @step("prepare uri from the file {file_name} and the endpoint {endpoint}")
@@ -16,20 +15,25 @@ def prepare_uri_step(context, file_name, endpoint):
 def prepare_header(context):
     """This function prepares header from .feature file"""
     header = {}
+    key = ""
     for i, x in enumerate(context.table, start=0):
         value = x["value"]
         key = x["key"]
         header[key] = value
     get_poo = Get_method(context)
     get_poo.prepare_header(header)
+    ruta = f"{os.getcwd()}/configuration/{x['value']}.json"
+    with open(ruta, "r") as e:
+        data = json.load(e)
+        header[x["key"]] = data[key]
 
 
-@step("performa method and validate the status code {status_code}")
-def performance_method(context, status_code):
+@step("perform method and validate the status code {status_code}")
+def perform_method(context, status_code):
     """This function perform method and validates stats code"""
     get_poo = Get_method(context)
-    response = str(get_poo.perform_method_and_get_status_code())
-    assert status_code == response, f"Something went wrong with the status code {response}"
+    response = get_poo.perform_method_and_get_status_code()
+    assert int(status_code) == response, f"Something went wrong with the status code {response}"
 
 
 @step("verify the key {key} with the following conditions")
@@ -59,7 +63,7 @@ def validate_items_in_body(context, key):
             else:
                 raise ValueError(f"Something went wrong {[key_table]}")
 
-@step("verify the key with the following conditions")
+@step("verify the following keys in the body")
 def validate_items_in_body(context):
     """This function validates values"""
     get_poo = Get_method(context)
