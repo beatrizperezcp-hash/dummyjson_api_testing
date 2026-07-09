@@ -23,11 +23,16 @@ class Get_method:
      self.context.get_method = req.get(url=self.context.get_uri, headers=self.context.header)
      return self.context.get_method.status_code
 
-    def verify_field_in_body(self, key):
+    def verify_field_in_body(self, key, field=None):
         json = self.context.get_method.json()
-        for x in json:
-            if key in x:
-                pass
+        if field is None:
+          if key not in json:
+            raise ValueError(f"Key {key} is missing in the body")
+        else:
+            for x in json[field]:
+                if key not in x:
+                 raise ValueError(f"Key {key} is missing in the body")
+
         return json
 
     def verify_main_in_body(self):

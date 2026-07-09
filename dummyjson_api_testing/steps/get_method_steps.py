@@ -49,19 +49,18 @@ def validate_items_in_body(context, key):
         if response[key]:
          for x in response[key]:
             if condition == ">":
-              if x[key_table] > int(value):
-                 pass
+              if x[key_table] <= int(value):
+                 raise ValueError(f"The following condition was not met {condition}")
             elif condition == "not" and value == any:
-                if not value(x[key_table]):
-                  pass
+                if value(x[key_table]):
+                    raise ValueError(f"The following condition was not met {value(x[key_table])}")
             elif condition == ">=":
-                if x[key_table] >= int(value):
-                    pass
+                if x[key_table] < int(value):
+                    raise ValueError(f"The following condition was not met {condition}")
             elif condition == "not":
-                if x[key_table] is not None:
-                    pass
-            else:
-                raise ValueError(f"Something went wrong {[key_table]}")
+                if x[key_table] is None:
+                    raise ValueError(f"The following condition was not met {condition}")
+
 
 @step("verify the following keys in the body")
 def validate_items_in_body(context):
@@ -71,14 +70,14 @@ def validate_items_in_body(context):
 
     for x in context.table:
         key_table = x["key"]
-        if key_table in response:
-            pass
+        if key_table not in response:
+           raise ValueError(f"Key {key_table} is missing in the body")
 
 @step("validate {key} is not duplicated in {field}")
 def validate_key_is_not_duplicated(context, key, field):
     """This function validates is the indicated key is not duplicated"""
     get_poo = Get_method(context)
-    response = get_poo.verify_field_in_body(key)
+    response = get_poo.verify_field_in_body(key, field)
     keys = []
     for x in response[field]:
        if x[key] not in keys:
